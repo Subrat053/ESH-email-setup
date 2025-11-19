@@ -4,7 +4,12 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.BASE_URL 
+    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true
+}));
 app.use(express.json());
 
 // POST API to send mail
@@ -50,4 +55,4 @@ app.post("/send-mail", async (req, res) => {
 });
 
 // Server start
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+app.listen(5000, () => console.log(`Server running on`));
